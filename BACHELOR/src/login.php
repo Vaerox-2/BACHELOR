@@ -23,12 +23,12 @@ if (isset($_POST['email'])) {
     } else {
        
         // check if the user exists
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $result = $conn->query($sql);
+        $emailsql = "SELECT * FROM users WHERE email = '$email'";
+        $emailresult = $conn->query($emailsql);
         if (!isset($_POST['username'])) {
-            if ($result->num_rows > 0) {
+            if ($emailresult->num_rows > 0) {
                 // check password
-                $row = $result->fetch_assoc();
+                $row = $emailresult->fetch_assoc();
                 if ($row['password'] === $_POST['password']) {
                     $_SESSION['user'] = $row['id'];
                     echo "<meta http-equiv='refresh' content='0;url=/'>";
@@ -39,9 +39,6 @@ if (isset($_POST['email'])) {
                 echo "<div class='alert alert-danger'>User not found, please register</div>";
             }
         } else {
-            if ($result->num_rows > 0) {
-                echo "<div class='alert alert-danger'>Email Already registered</div>";
-            } else {
                 // create a new user
                 $id = bin2hex(random_bytes(16));
 
@@ -59,27 +56,34 @@ if (isset($_POST['email'])) {
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param('ss', $_POST['username'] , $password);
                 
-                if (!$stmt->execute()) {
-                    echo "Error creating user";
-                    $stmt->close();
-                    $conn->close();
-                    exit();
-                } else {
-                    //user created, create row in points table
-                    $sql = "INSERT INTO points (id) VALUES ('$email')";
-                    $stmt = $conn->prepare($sql);
-                    if (!$stmt->execute()) {
-                        echo "Error adding points to user at creation";
-                        $stmt->close();
-                        $conn->close();
-                        exit();
+                
+                if ($emailresult->num_rows == 0) {
+                    try {
+                        if (!$stmt->execute()) {
+                            echo "Error creating user";
+                            $stmt->close();
+                            $conn->close();
+                            exit();
+                        } else {
+                            //user created, create row in points table
+                            $sql = "INSERT INTO points (id) VALUES ('$email')";
+                            $stmt = $conn->prepare($sql);
+                            if (!$stmt->execute()) {
+                                echo "Error adding points to user at creation";
+                                $stmt->close();
+                                $conn->close();
+                                exit();
+                            }
+                        }
+                        echo "<div class='alert alert-success'>User created! Your password is \"$password\"</div>";
+                    } catch (Exception $e) {
+                        echo "<div class='alert alert-danger'>Email already registered</div>";
                     }
+                    $stmt->close();
                 }
-                echo "<div class='alert alert-success'>User created! Your password is \"$password\"</div>";
-                $stmt->close();
-            }
-            $sql = "UPDATE points set points=points+300 where id = '$email'";
-            $conn->query($sql);
+                $sql = "UPDATE points set points=points+300 where id = '$email'";
+                $conn->query($sql);
+
         } 
         $conn->close();
     }
