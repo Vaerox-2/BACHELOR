@@ -1,7 +1,7 @@
 <?php
 
 
-$PRIZE_POINTS = 15;
+$PRIZE_POINTS = 600;
 
 
 function db_connect() {

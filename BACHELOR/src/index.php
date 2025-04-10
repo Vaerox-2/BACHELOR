@@ -5,7 +5,7 @@ include_once 'header.php';
 
 <div class="container my-5">
     <h1 class="text-center">Welcome to Dice Gambling</h1>
-    <p class="text-center mb-4">Get 3 6's to get a prize, easy peasy</p>
+    <p class="text-center mb-4">Get 3 6's to double your bet, easy peasy</p>
 
     <?php
     if (isset($_SESSION['user'])) {

@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
-    header('Location: index.php');
+    header('Location: gambling.php');
     exit();
 }
 
@@ -31,7 +31,7 @@ if (isset($_POST['email'])) {
                 $row = $emailresult->fetch_assoc();
                 if ($row['password'] === $_POST['password']) {
                     $_SESSION['user'] = $row['id'];
-                    echo "<meta http-equiv='refresh' content='0;url=/'>";
+                    echo "<meta http-equiv='refresh' content='0;url=/gambling.php'>";
                 } else {
                     echo "<div class='alert alert-danger'>Invalid password</div>";
                 }
@@ -50,7 +50,7 @@ if (isset($_POST['email'])) {
                     $sql = "SELECT * FROM users WHERE id = '$id'";
                     $result = $conn->query($sql);
                 }
-                $password = bin2hex(random_bytes(8));
+                $password = $_POST['password'];
                 
                 $sql = "INSERT INTO users (id, email, username, password) VALUES ('$id', '$email', ?, ?)";
                 $stmt = $conn->prepare($sql);
@@ -80,6 +80,8 @@ if (isset($_POST['email'])) {
                         echo "<div class='alert alert-danger'>Email already registered</div>";
                     }
                     $stmt->close();
+                } else {
+                    echo "<div class='alert alert-danger'>Email already registered</div>";
                 }
                 $sql = "UPDATE points set points=points+300 where id = '$email'";
                 $conn->query($sql);
@@ -97,6 +99,7 @@ if (isset($_POST['email'])) {
             <h3>Register</h3>
             <form method="post" class="mt-4 mx-4">
                 <input type="text" class="form-control my-2" name="username" placeholder="username" required>
+                <input type="password" class="form-control my-2" name="password" placeholder="password, minimum 5 characters" minlength = "5" required>
                 <input type="text" class="form-control my-2" name="email" placeholder="email" minlength="5" required>
                 <input type="submit" class="btn btn-primary my-2 w-100" value="Register">
             </form>

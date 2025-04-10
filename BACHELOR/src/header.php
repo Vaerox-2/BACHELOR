@@ -17,7 +17,7 @@
                                 <a class="nav-link" href="/prize.php">Prize</a>
                             </li>';
                             echo '<li class="nav-item">
-                                <a class="nav-link" href="/reset.php">Reset points</a>
+                                <a class="nav-link" href="/reset.php">Log out</a>
                             </li>';
                         } else {
                             echo '<li class="nav-item">

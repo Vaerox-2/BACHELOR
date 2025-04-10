@@ -14,7 +14,7 @@ include_once 'header.php';
 session_destroy();
 
 echo "you have been logged out!<br>";
-echo "<a class='btn btn-primary mt-3' href='/index.php'>Start Gambling</a>";
+echo "<a class='btn btn-primary mt-3' href='/login.php'>Start Gambling</a>";
 
 ?>
 
