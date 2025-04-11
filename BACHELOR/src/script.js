@@ -12,7 +12,6 @@ resetGame();
 
 function resetGame() {
     resetDice();
-    updateScoreLine();
 }
 function resetDice() {
     dice = [];
@@ -20,7 +19,6 @@ function resetDice() {
         dice[i] = Math.floor(Math.random()*6+1);
         updateDice(i);
     }
-    updateScoreLine();
 }
 
 function rollDices() {

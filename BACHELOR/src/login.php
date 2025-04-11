@@ -79,12 +79,14 @@ if (isset($_POST['email'])) {
                     } catch (Exception $e) {
                         echo "<div class='alert alert-danger'>Email already registered</div>";
                     }
+                    $sql = "UPDATE points set points=points+300 where id = '$email'";
+                    $conn->query($sql);
+
+
                     $stmt->close();
                 } else {
                     echo "<div class='alert alert-danger'>Email already registered</div>";
                 }
-                $sql = "UPDATE points set points=points+300 where id = '$email'";
-                $conn->query($sql);
 
         } 
         $conn->close();

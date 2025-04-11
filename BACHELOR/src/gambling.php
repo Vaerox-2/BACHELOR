@@ -60,7 +60,7 @@ if (!isset($_SESSION['user'])) {
     </div>
     <div class="scoreContainer">
         <div id="score">
-            <p id="scoreLine">Balance: </p>
+            <p id="scoreLine">Balance: <?php echo "$points"?></p>
         </div>
     </div>
     <div class="container">
