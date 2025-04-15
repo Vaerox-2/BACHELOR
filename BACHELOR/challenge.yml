@@ -1,0 +1,11 @@
+name: dice_gambling                           # Name of the challenge
+category: web                 # Category to which the challenge belongs (e.g., web, crypto, pwn, misc)
+description:                    # Description of the challenge shown toparticipants
+  - Accumulate at least 3000 points to claim the flag :)
+type: container                     # Type of challenge (dynamic or container)
+solution:                            # How to solve the challenge (textual 
+  - If several users are created with the same email quickly,  # description for internal reference) 
+  - the signup bonus will be applied multiple times                                      
+flags:                              # The flag that validate the challenge
+  - Bachelor{G4MBLING_BL1NG}                              
+value: 100                           # The number of points awarded when the challenge is solved.
