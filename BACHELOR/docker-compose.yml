@@ -8,8 +8,12 @@ services:
       - "${SSH_PORT:-8022}:22"
     volumes:
       - ./src:/var/www/html
+      - /tmp
+      - /var/log/apache2
+      - /var/run
     environment:
       - DB_HOST=db
+      - DOMAIN=${DOMAIN:-localhost}
     restart: unless-stopped
 
   db:
@@ -20,3 +24,11 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
+  solution:
+    build:
+      context: ./solution
+    environment:
+      - DOMAIN=${DOMAIN:-localhost}
+    network_mode: host
+    depends_on:
+      - web
